@@ -11,7 +11,7 @@ use DB;
 class HakAkses
 {
   public static $all = array(
-    'auditTrail_list',
+    'auditTrail_lihat',
 
     'jabatan_lihat',
     'jabatan_simpan',
