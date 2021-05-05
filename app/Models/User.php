@@ -51,7 +51,7 @@ class User extends Authenticatable
 	public function scopeGetPerms($query)
 	{
 		$perms = [];
-		$permissions = $query->join('jabatan as j', 'jabatan_id', 'user_jabatan_id')
+		$permissions = $query->join('jabatan as j', 'j.id', 'jabatan_id')
 			->select(DB::raw('string_agg(hak_akses, \',\') as permissions'))->first();
 		if(!empty($permissions->hak_akses))
       $perms = explode(",",$permissions->hak_akses);

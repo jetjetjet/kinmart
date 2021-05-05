@@ -15,7 +15,6 @@ class Jabatan extends Model
 
   use HasFactory, SoftDeletes;
   protected $table = 'jabatan';
-  protected $primaryKey = 'jabatan_id';
   protected $fillable = [
 		'nama_jabatan',
 		'deskripsi_jabatan',
