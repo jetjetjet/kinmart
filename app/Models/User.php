@@ -6,24 +6,45 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
 //use Illuminate\Auth\Passwords\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
 use DB;
 
 class User extends Authenticatable
 {
-	use HasApiTokens, HasFactory, Notifiable;
+	const CREATED_AT = 'user_created_at';
+  const UPDATED_AT = 'user_modified_at';
+  const DELETED_AT = 'user_deleted_at';
 
-	public $timestamps = false;
+	use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
+
+	protected $table = 'users';
 	protected $fillable = [
+		'jabatan_id',
+		'photo_file_id',
 		'username',
-		'email',
 		'password',
+		'nama_lengkap',
+		'kontak',
+		'alamat',
+		'tgl_gabung',
+		'jenis_kelamin',
+		'remember_token',
+		'user_created_at',
+		'user_created_by',
+		'user_modified_at',
+		'user_modified_by',
+		'user_deleted_at',
+		'user_deleted_by'
+
 	];
 
 	/**

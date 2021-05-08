@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,12 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
   Route::get('jabatan/detail/{id}', [JabatanController::class, 'getById']);
   Route::post('jabatan/simpan', [JabatanController::class, 'save']);
   Route::post('jabatan/hapus/{id}', [JabatanController::class, 'delete']);
+
+  Route::get('user/semua', [UserController::class, 'getAll']);
+  Route::get('user/detail/{id}', [UserController::class, 'getById']);
+  Route::post('user/simpan', [UserController::class, 'save']);
+  Route::post('user/hapus/{id}', [UserController::class, 'delete']);
+  Route::post('user/password/{id}', [UserController::class, 'password']);
 
   Route::post('/logout', [AuthController::class, 'logout']);
 });

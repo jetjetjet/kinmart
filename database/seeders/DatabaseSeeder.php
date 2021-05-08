@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'superadmin',
             'password' => Hash::make('superadmin'),
             'nama_lengkap' => 'superadmin',
-            'user_active' => '1',
             'user_created_at' => now()->toDateTimeString(),
             'user_created_by' => '1'
         ]);
@@ -29,7 +28,6 @@ class DatabaseSeeder extends Seeder
             'username' => 'kasir',
             'password' => Hash::make('kasir'),
             'nama_lengkap' => 'kasir',
-            'user_active' => '1',
             'user_created_at' => now()->toDateTimeString(),
             'user_created_by' => '1'
         ]);

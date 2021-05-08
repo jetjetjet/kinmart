@@ -32,7 +32,7 @@ class AuthController extends Controller
     $attr = Array(
       'username'=> $inputs['username'], 
       'password' => $inputs['password'],
-      'user_active' => '1'
+      'user_deleted_by' => null
     );
 
     if(!Auth::attempt($attr)){
