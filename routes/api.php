@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,11 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
   Route::get('jabatan/detail/{id}', [JabatanController::class, 'getById']);
   Route::post('jabatan/simpan', [JabatanController::class, 'save']);
   Route::post('jabatan/hapus/{id}', [JabatanController::class, 'delete']);
+
+  Route::get('member/semua', [MemberController::class, 'getAll']);
+  Route::get('member/detail/{id}', [MemberController::class, 'getById']);
+  Route::post('member/simpan', [MemberController::class, 'save']);
+  Route::post('member/hapus/{id}', [MemberController::class, 'delete']);
 
   Route::get('user/semua', [UserController::class, 'getAll']);
   Route::get('user/detail/{id}', [UserController::class, 'getById']);

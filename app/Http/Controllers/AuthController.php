@@ -42,7 +42,7 @@ class AuthController extends Controller
     
     $token = Auth::user()->createToken($request->username);
     $data = Array( "token" => $token->plainTextToken,
-      "userid" => Auth::user()->id,
+      "id" => Auth::user()->id,
       "username" => Auth::user()->username,
       "nama_lengkap" => Auth::user()->nama_lengkap,
       "perms" => Auth::user()->getPerms()
