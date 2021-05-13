@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\BarangController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,11 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
   Route::get('/me', function(Request $request) {
     return auth()->user();
   });
+
+  Route::get('barang/semua', [BarangController::class, 'getAll']);
+  Route::get('barang/detail/{id}', [BarangController::class, 'getById']);
+  Route::post('barang/simpan', [BarangController::class, 'save']);
+  Route::post('barang/hapus/{id}', [BarangController::class, 'delete']);
 
   Route::get('jabatan/semua', [JabatanController::class, 'getAll']);
   Route::get('jabatan/detail/{id}', [JabatanController::class, 'getById']);
