@@ -25,11 +25,12 @@ class CreateUsersTable extends Migration
             $table->dateTime('tgl_gabung')->nullable();
             $table->string('jenis_kelamin')->nullable();
             $table->string('remember_token')->nullable();
-            $table->boolean('user_active');
-            $table->dateTime('user_created_at');
+            $table->timestamp('user_created_at', $precision = 0);
             $table->integer('user_created_by');
-            $table->dateTime('user_modified_at')->nullable();
+            $table->timestamp('user_modified_at', $precision = 0)->nullable();
             $table->integer('user_modified_by')->nullable();
+            $table->softDeletes($column = 'user_deleted_at', $precision = 0);
+            $table->integer('user_deleted_by')->nullable();
         });
     }
 
