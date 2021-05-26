@@ -4,6 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\KategoriBarangController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +30,16 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
   Route::get('jabatan/detail/{id}', [JabatanController::class, 'getById']);
   Route::post('jabatan/simpan', [JabatanController::class, 'save']);
   Route::post('jabatan/hapus/{id}', [JabatanController::class, 'delete']);
+
+  Route::get('supplier/semua', [SuppliersController::class, 'getAll']);
+  Route::get('supplier/detail/{id}', [SuppliersController::class, 'getById']);
+  Route::post('supplier/simpan', [SuppliersController::class, 'save']);
+  Route::post('supplier/hapus/{id}', [SuppliersController::class, 'delete']);
+
+  Route::get('kategori_barang/semua', [KategoriBarangController::class, 'getAll']);
+  Route::get('kategori_barang/detail/{id}', [KategoriBarangController::class, 'getById']);
+  Route::post('kategori_barang/simpan', [KategoriBarangController::class, 'save']);
+  Route::post('kategori_barang/hapus/{id}', [KategoriBarangController::class, 'delete']);
 
   Route::post('/logout', [AuthController::class, 'logout']);
 });
