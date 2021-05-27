@@ -22,7 +22,7 @@ class CreateSuppliersTable extends Migration
             $table->integer('supplier_created_by');
             $table->timestamp('supplier_modified_at')->nullable();
             $table->integer('supplier_modified_by')->nullable();
-            $table->timestamp('supplier_deleted_at')->nullable();
+            $table->softDeletes($column = 'supplier_deleted_at', $precision = 0)->nullable();
             $table->integer('supplier_deleted_by')->nullable();
         });
     }

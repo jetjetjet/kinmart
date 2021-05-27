@@ -21,7 +21,7 @@ class CreateKategoriBarangsTable extends Migration
             $table->timestamp('kb_created_at');
             $table->timestamp('kb_modified_at')->nullable();
             $table->integer('kb_modified_by')->nullable();
-            $table->timestamp('kb_deleted_at')->nullable();
+            $table->softDeletes($column = 'kb_deleted_at', $precision = 0)->nullable();
             $table->integer('kb_deleted_by')->nullable();
         });
     }
