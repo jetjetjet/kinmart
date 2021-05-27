@@ -28,11 +28,12 @@ class JabatanController extends Controller
 	{
     $respon = Utils::$responses;
 
-		$data = Jabatan::where('jabatan_id', $id)
-			->leftJoin('users as mod', 'mod.id', 'jabatan_modified_by')
+		$data = Jabatan::findOrFail($id);
+dd($data);
+			$data->leftJoin('users as mod', 'mod.id', 'jabatan_modified_by')
 			->leftJoin('users as crt', 'crt.id', 'jabatan_created_by')
 			->select(
-				'jabatan_id',
+				'jabatan.id',
 				'nama_jabatan',
 				'deskripsi_jabatan',
 				'hak_akses',
@@ -41,7 +42,9 @@ class JabatanController extends Controller
 				'crt.username as jabatan_created_by',
 				'jabatan_modified_at',
 				'mod.username as jabatan_modified_by'
-			)->first();
+			)->firstOrFail();
+		
+			dd($data);
 		if(!empty($data)){
 			$respon['success'] = true;
 			$respon['state_code'] = 200;
@@ -60,9 +63,10 @@ class JabatanController extends Controller
 	{
     $respon = Utils::$responses;
 
-		$rules = array(
+		$rules = $request->validate([
 			'nama_jabatan' => 'required',
-		);
+	]);
+	dd($rules);
 
 		$inputs = $request->all();
 		$respon['data'] = $inputs;
@@ -74,46 +78,59 @@ class JabatanController extends Controller
       return response()->json($respon, $respon['state_code']);
 		}
 
-		try{
-			if(isset($inputs['id'])){
-				$data = Jabatan::find($inputs['id']);
-				if($data == null){
-					$respon['state_code'] = 404;
-					array_push($respon['messages'],'Jabatan tidak ditemukan.');
+		$tes = Jabatan::UpdateOrCreate(
+			[ 
+				'id' => $request->id
+			],
+			[
+				'nama_jabatan' => $inputs['nama_jabatan'],
+				'deskripsi_jabatan' => $inputs['deskripsi_jabatan'] ?? null,
+				'hak_akses' => $inputs['hak_akses'] ?? null,
+				'is_admin' => $inputs['is_admin'] ?? null,
+				'jabatan_created_by' => 1
+			]);
+		
+		dd($tes);
+		// try{
+		// 	if(isset($inputs['id'])){
+		// 		$data = Jabatan::find($inputs['id']);
+		// 		if($data == null){
+		// 			$respon['state_code'] = 404;
+		// 			array_push($respon['messages'],'Jabatan tidak ditemukan.');
 
-					return response()->json($respon, $respon['state_code']);
-				}
+		// 			return response()->json($respon, $respon['state_code']);
+		// 		}
 				
-				$data->update([
-					'nama_jabatan' => $inputs['nama_jabatan'],
-					'deskripsi_jabatan' => $inputs['deskripsi_jabatan'] ?? null,
-					'hak_akses' => $inputs['hak_akses'] ?? null,
-					'is_admin' => $inputs['is_admin'] ?? null,
-					'jabatan_modified_by' => $loginid
-				]);
+		// 		$data->update([
+		// 			'nama_jabatan' => $inputs['nama_jabatan'],
+		// 			'deskripsi_jabatan' => $inputs['deskripsi_jabatan'] ?? null,
+		// 			'hak_akses' => $inputs['hak_akses'] ?? null,
+		// 			'is_admin' => $inputs['is_admin'] ?? null,
+		// 			'jabatan_modified_by' => $loginid
+		// 		]);
 
-				$respon['success'] = true;
-				$respon['state_code'] = 200;
-				array_push($respon['messages'],'Jabatan berhasil diubah.');
-			} else {
-				$data = Jabatan::create([
-					'nama_jabatan' => $inputs['nama_jabatan'],
-					'deskripsi_jabatan' => $inputs['deskripsi_jabatan'] ?? null,
-					'hak_akses' => $inputs['hak_akses'] ?? null,
-					'is_admin' => $inputs['is_admin'] ?? null,
-					'jabatan_created_by' => $loginid
-				]);
-			}
+		// 		$respon['success'] = true;
+		// 		$respon['state_code'] = 200;
+		// 		array_push($respon['messages'],'Jabatan berhasil diubah.');
+		// 	} else {
+		// 		$data = Jabatan::create([
+		// 			'nama_jabatan' => $inputs['nama_jabatan'],
+		// 			'deskripsi_jabatan' => $inputs['deskripsi_jabatan'] ?? null,
+		// 			'hak_akses' => $inputs['hak_akses'] ?? null,
+		// 			'is_admin' => $inputs['is_admin'] ?? null,
+		// 			'jabatan_created_by' => $loginid
+		// 		]);
+		// 	}
 			
-		$respon['data'] = $data;
-		$respon['success'] = true;
-		$respon['state_code'] = 200;
-		array_push($respon['messages'],'Jabatan berhasil ditambah.');
+		// $respon['data'] = $data;
+		// $respon['success'] = true;
+		// $respon['state_code'] = 200;
+		// array_push($respon['messages'],'Jabatan berhasil ditambah.');
 
-		}catch(\Exception $e){
-			$respon['state_code'] = 500;
-			array_push($respon['messages'],'Kesalahan! Jabatan tidak dapat diproses.');
-		}
+		// }catch(\Exception $e){
+		// 	$respon['state_code'] = 500;
+		// 	array_push($respon['messages'],'Kesalahan! Jabatan tidak dapat diproses.');
+		// }
 		
     return response()->json($respon, $respon['state_code']);
 	}
