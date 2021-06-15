@@ -66,28 +66,28 @@ class KategoriBarangController extends Controller
 		}
 
 		try{
-			if(isset($inputs['id'])){
+			if(isset($inputs['id']) && $inputs['id'] != 0){
 				$data = Kategori_Barang::find($inputs['id']);
 				if($data == null){
 					$respon['state_code'] = 404;
-					array_push($respon['messages'],'Kategori_Barang tidak ditemukan.');
+					array_push($respon['messages'],'Kategori Barang tidak ditemukan.');
 
 					return response()->json($respon, $respon['state_code']);
 				}
 				
 				$data->update([
 					'nama_kb' => $inputs['nama_kb'],
-					'deskripsi_kb' => $inputs['deskripsi_kb'] ?? null,
+					'deskripsi_kb' => $inputs['deskripsi_kb'] == 'null' ?  null : $inputs['deskripsi_kb'],
 					'kb_modified_by' => $loginid
 				]);
-				array_push($respon['messages'],'Kategori_Barang berhasil diubah.');
+				array_push($respon['messages'],'Kategori Barang berhasil diubah.');
 			} else {
 				$data = Kategori_Barang::create([
 					'nama_kb' => $inputs['nama_kb'],
-					'deskripsi_kb' => $inputs['deskripsi_kb'] ?? null,
+					'deskripsi_kb' => $inputs['deskripsi_kb'] == 'null' ?  null : $inputs['deskripsi_kb'],
 					'kb_created_by' => $loginid
 				]);
-                array_push($respon['messages'],'Kategori_Barang berhasil ditambah.');
+                array_push($respon['messages'],'Kategori Barang berhasil ditambah.');
 
 			}
 			
@@ -97,7 +97,7 @@ class KategoriBarangController extends Controller
 
 		}catch(\Exception $e){
 			$respon['state_code'] = 500;
-			array_push($respon['messages'],'Kesalahan! Kategori_Barang tidak dapat diproses.');
+			array_push($respon['messages'],'Kesalahan! Kategori Barang tidak dapat diproses.');
 		}
 		
     return response()->json($respon, $respon['state_code']);
@@ -116,10 +116,10 @@ class KategoriBarangController extends Controller
 
 			$respon['success'] = true;
 			$respon['state_code'] = 200;
-			array_push($respon['messages'],'Kategori_Barang berhasil dihapus.');
+			array_push($respon['messages'],'Kategori Barang berhasil dihapus.');
 		} else {
 			$respon['state_code'] = 500;
-			array_push($respon['messages'],'Kesalahan! Kategori_Barang tidak ditemukan.');
+			array_push($respon['messages'],'Kesalahan! Kategori Barang tidak ditemukan.');
 		}
 
     return response()->json($respon, $respon['state_code']);

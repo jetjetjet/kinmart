@@ -67,7 +67,7 @@ class SuppliersController extends Controller
 		}
 
 		try{
-			if(isset($inputs['id'])){
+			if(isset($inputs['id']) && $inputs['id'] != 0){
 				$data = Suppliers::find($inputs['id']);
 				if($data == null){
 					$respon['state_code'] = 404;
@@ -78,16 +78,16 @@ class SuppliersController extends Controller
 				
 				$data->update([
 					'nama' => $inputs['nama'],
-					'alamat' => $inputs['alamat'] ?? null,
-					'kontak' => $inputs['kontak'] ?? null,
+					'alamat' => $inputs['alamat'] == 'null' ?  null : $inputs['alamat'],
+					'kontak' => $inputs['kontak'] == 'null' ?  null : $inputs['kontak'],
 					'supplier_modified_by' => $loginid
 				]);
 				array_push($respon['messages'],'Suppliers berhasil diubah.');
 			} else {
 				$data = Suppliers::create([
 					'nama' => $inputs['nama'],
-					'alamat' => $inputs['alamat'] ?? null,
-					'kontak' => $inputs['kontak'] ?? null,
+					'alamat' => $inputs['alamat'] == 'null' ?  null : $inputs['alamat'],
+					'kontak' => $inputs['kontak'] == 'null' ?  null : $inputs['kontak'],
 					'supplier_created_by' => $loginid
 				]);
                 array_push($respon['messages'],'Suppliers berhasil ditambah.');
