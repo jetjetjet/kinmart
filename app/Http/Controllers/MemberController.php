@@ -31,7 +31,7 @@ class MemberController extends Controller
 		$data = Member::where('id', $id)
 			->select(
 				'id',
-                'nama_member',
+				'nama_member',
 				'kontak_member',
 				'alamat_member',
 				'tgl_join',
@@ -58,7 +58,7 @@ class MemberController extends Controller
 
 		$rules = array(
 			'nama_member' => 'required',
-            'tgl_join' => 'required'
+			'tgl_join' => 'required'
 		);
 
 		$inputs = $request->all();
@@ -72,7 +72,7 @@ class MemberController extends Controller
 		}
 
 		try{
-			if(isset($inputs['id'])){
+			if(isset($inputs['id']) && $inputs['id'] != 0){
 				$data = Member::find($inputs['id']);
 				if($data == null){
 					$respon['state_code'] = 404;
@@ -83,25 +83,25 @@ class MemberController extends Controller
 				
 				$data->update([
 					'nama_member' => $inputs['nama_member'],
-					'kontak_member' => $inputs['kontak_member'] ?? null,
-					'alamat_member' => $inputs['alamat_member'] ?? null,
-                    'tgl_join' => $inputs['tgl_join'],
-					'poin' => $inputs['poin'] ?? null,
-                    'diskon' => $inputs['diskon'] ?? null,
+					'kontak_member' => $inputs['kontak_member'] == 'null' ?  null : $inputs['kontak_member'],
+					'alamat_member' => $inputs['alamat_member'] == 'null' ?  null : $inputs['alamat_member'],
+					'tgl_join' => $inputs['tgl_join'],
+					'poin' => $inputs['poin'] == 'null' ?  null : $inputs['poin'],
+					'diskon' => $inputs['diskon'] == 'null' ?  null : $inputs['diskon'],
 					'member_modified_by' => $loginid
 				]);
 				array_push($respon['messages'],'Member berhasil diubah.');
 			} else {
 				$data = Member::create([
 					'nama_member' => $inputs['nama_member'],
-					'kontak_member' => $inputs['kontak_member'] ?? null,
-					'alamat_member' => $inputs['alamat_member'] ?? null,
-                    'tgl_join' => $inputs['tgl_join'],
-					'poin' => $inputs['poin'] ?? null,
-                    'diskon' => $inputs['diskon'] ?? null,
+					'kontak_member' => $inputs['kontak_member'] == 'null' ?  null : $inputs['kontak_member'],
+					'alamat_member' => $inputs['alamat_member'] == 'null' ?  null : $inputs['alamat_member'],
+					'tgl_join' => $inputs['tgl_join'],
+					'poin' => $inputs['poin'] == 'null' ?  null : $inputs['poin'],
+					'diskon' => $inputs['diskon'] == 'null' ?  null : $inputs['diskon'],
 					'member_created_by' => $loginid
 				]);
-                array_push($respon['messages'],'Member berhasil ditambah.');
+				array_push($respon['messages'],'Member berhasil ditambah.');
 			}
 			
 		$respon['data'] = $data;
@@ -112,6 +112,7 @@ class MemberController extends Controller
 		}catch(\Exception $e){
 			$respon['state_code'] = 500;
 			array_push($respon['messages'],'Kesalahan! Member tidak dapat diproses.');
+			dd($e);
 		}
 		
     return response()->json($respon, $respon['state_code']);
